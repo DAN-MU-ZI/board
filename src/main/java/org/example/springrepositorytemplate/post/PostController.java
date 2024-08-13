@@ -18,7 +18,7 @@ public class PostController {
 	private final PostService postService;
 
 	@GetMapping
-	public String createPost() {
+	public String createPost(CreatePostRequest request) {
 		return "post_new";
 	}
 
