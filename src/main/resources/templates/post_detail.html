@@ -9,5 +9,29 @@
 <div th:text="${post.content}"></div>
 <a th:href="@{|/post/update/${post.id}|}">수정하기</a>
 <a th:href="@{|/post/delete/${post.id}|}">삭제하기</a>
+
+<h1>댓글 목록</h1>
+<table>
+    <thead>
+    <tr>
+        <th>title</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="comment:${post.comments}">
+        <td th:text="${comment.content}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<h1>댓글 쓰기</h1>
+<form th:action="@{|/comment/${post.id}|}" th:object="${createCommentRequest}" method="post">
+    <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+    <div>
+        <label for="content">내용:</label>
+        <textarea th:field="*{content}" required></textarea>
+    </div>
+    <input type="submit" value="등록하기">
+</form>
 </body>
 </html>
