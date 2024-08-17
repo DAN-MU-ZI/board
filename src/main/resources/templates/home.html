@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>title</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="post:${posts}">
+        <td><a th:href="@{|/post/${post.id}|}" th:text="${post.title}"> </a></td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/post}">글쓰기</a>
+</body>
+</html>
