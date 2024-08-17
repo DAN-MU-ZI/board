@@ -1,4 +1,4 @@
-package org.example.springrepositorytemplate.controller;
+package org.example.springrepositorytemplate.main;
 
 import java.util.List;
 
