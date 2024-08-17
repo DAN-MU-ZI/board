@@ -1,5 +1,6 @@
 package org.example.springrepositorytemplate.post;
 
+import org.example.springrepositorytemplate.comment.CreateCommentRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,7 +39,9 @@ public class PostController {
 
 	@GetMapping("{id}")
 	public String getPostDetail(@PathVariable("id") Long id,
-		Model model) {
+		Model model,
+		CreateCommentRequest request) {
+
 		Post post = postService.findById(id);
 		model.addAttribute("post", post);
 		return "post_detail";
