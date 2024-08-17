@@ -8,5 +8,6 @@
 <div th:text="${post.title}"></div>
 <div th:text="${post.content}"></div>
 <a th:href="@{|/post/update/${post.id}|}">수정하기</a>
+<a th:href="@{|/post/delete/${post.id}|}">삭제하기</a>
 </body>
 </html>

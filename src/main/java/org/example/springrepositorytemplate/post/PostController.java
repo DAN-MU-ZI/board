@@ -72,4 +72,12 @@ public class PostController {
 
 		return String.format("redirect:/post/%s", id);
 	}
+
+	@GetMapping("/delete/{id}")
+	public String deletePost(@PathVariable("id") Long id) {
+		Post post = postService.findById(id);
+		postService.deletePost(post);
+
+		return "redirect:/";
+	}
 }
