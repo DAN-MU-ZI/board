@@ -19,15 +19,20 @@ public class PostController {
 
 	@GetMapping
 	public String createPost(CreatePostRequest request) {
-		return "post_new";
+		return "post_submit";
 	}
 
 	@PostMapping
 	public String createPost(@Valid CreatePostRequest request, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			return "post_new";
+			return "post_submit";
 		}
-		postService.savePost(request);
+
+		Post post = new Post();
+		post.setTitle(request.getTitle());
+		post.setContent(request.getContent());
+		postService.savePost(post);
+
 		return "redirect:/";
 	}
 
@@ -37,5 +42,34 @@ public class PostController {
 		Post post = postService.findById(id);
 		model.addAttribute("post", post);
 		return "post_detail";
+	}
+
+	@GetMapping("/update")
+	public String updatePost() {
+		return "post_submit";
+	}
+
+	@GetMapping("/update/{id}")
+	public String updatePost(@PathVariable("id") Long id, CreatePostRequest request) {
+		Post post = postService.findById(id);
+
+		request.setTitle(post.getTitle());
+		request.setContent(post.getContent());
+
+		return "post_submit";
+	}
+
+	@PostMapping("/update/{id}")
+	public String updatePost(@PathVariable("id") Long id, CreatePostRequest request, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return "post_submit";
+		}
+
+		Post post = postService.findById(id);
+		post.setTitle(request.getTitle());
+		post.setContent(request.getContent());
+		postService.savePost(post);
+
+		return String.format("redirect:/post/%s", id);
 	}
 }

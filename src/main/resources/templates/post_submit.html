@@ -9,11 +9,11 @@
     <div th:replace="~{form_errors :: formErrorsFragment}"></div>
     <div>
         <label for="title">제목:</label>
-        <input type="text" id="title" name="title" required/>
+        <input type="text" th:field="*{title}"/>
     </div>
     <div>
         <label for="content">내용:</label>
-        <textarea id="content" name="content" rows="10" cols="50" required></textarea>
+        <textarea th:field="*{content}" rows="10" cols="50" required></textarea>
     </div>
     <input type="submit" value="저장">
 </form>

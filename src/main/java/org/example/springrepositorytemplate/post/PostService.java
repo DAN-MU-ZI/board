@@ -16,11 +16,7 @@ public class PostService {
 		return postRepository.findAll();
 	}
 
-	public void savePost(CreatePostRequest request) {
-		Post post = new Post();
-		post.setTitle(request.title());
-		post.setContent(request.content());
-
+	public void savePost(Post post) {
 		postRepository.save(post);
 	}
 
