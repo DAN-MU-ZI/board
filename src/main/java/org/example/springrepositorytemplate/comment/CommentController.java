@@ -5,6 +5,7 @@ import org.example.springrepositorytemplate.post.PostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,5 +37,34 @@ public class CommentController {
 		commentService.save(comment);
 
 		return String.format("redirect:/post/%s", postId);
+	}
+
+	@GetMapping("/update/{id}")
+	public String updateComment(@PathVariable("id") Long id, CreateCommentRequest request) {
+		Comment comment = commentService.findById(id);
+		request.setContent(comment.getContent());
+
+		return "comment_submit";
+	}
+
+	@PostMapping("/update/{id}")
+	public String updateComment(@PathVariable("id") Long id, CreateCommentRequest request,
+		BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return "comment_submit";
+		}
+		Comment comment = commentService.findById(id);
+		comment.setContent(request.getContent());
+		commentService.save(comment);
+
+		return String.format("redirect:/post/%s", comment.getPost().getId());
+	}
+
+	@GetMapping("/delete/{id}")
+	public String deleteComment(@PathVariable("id") Long id) {
+		Comment comment = commentService.findById(id);
+		commentService.delete(comment);
+
+		return String.format("redirect:/post/%s", comment.getPost().getId());
 	}
 }
