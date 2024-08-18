@@ -1,21 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title><!DOCTYPE html>
-        <html lang="en">
-        <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-</head>
-<body>
-<form th:object="${createCommentRequest}" method="post">
-    <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-    <div>
-        <label for="content">내용:</label>
-        <textarea th:field="*{content}" rows="10" cols="50" required></textarea>
-    </div>
-    <input type="submit" value="저장">
-</form>
-</body>
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+    <form th:object="${createCommentRequest}" method="post">
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+        <div>
+            <label for="content">내용:</label>
+            <textarea th:field="*{content}"></textarea>
+        </div>
+        <input type="submit" value="저장">
+    </form>
+</div>
 </html>

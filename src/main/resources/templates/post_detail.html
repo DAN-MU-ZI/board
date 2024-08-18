@@ -1,32 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<div th:text="${post.title}"></div>
-<div th:text="${post.content}"></div>
-<a th:href="@{|/post/update/${post.id}|}">수정하기</a>
-<a th:href="@{|/post/delete/${post.id}|}">삭제하기</a>
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+    <div th:text="${post.getMember().getUsername()}"></div>
+    <h1 th:text="${post.title}"></h1>
+    <div th:text="${post.content}"></div>
+    <a th:href="@{|/post/update/${post.id}|}">수정하기</a>
+    <a th:href="@{|/post/delete/${post.id}|}">삭제하기</a>
 
-<h1>댓글 목록</h1>
-<div th:each="comment:${post.comments}">
-    <div>
-        <div th:text="${comment.content}"></div>
+    <h1>댓글 목록</h1>
+    <div th:each="comment:${post.comments}">
+        <div>
+            <div th:text="${comment.content}"></div>
+        </div>
+        <a th:href="@{|/comment/update/${comment.id}|}">수정</a>
+        <a th:href="@{|/comment/delete/${comment.id}|}">삭제</a>
     </div>
-    <a th:href="@{|/comment/update/${comment.id}|}">수정</a>
-    <a th:href="@{|/comment/delete/${comment.id}|}">삭제</a>
+
+    <h1>댓글 쓰기</h1>
+    <form th:action="@{|/comment/${post.id}|}" th:object="${createCommentRequest}" method="post">
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+        <div>
+            <label for="content">내용:</label>
+            <textarea th:field="*{content}" required></textarea>
+        </div>
+        <input type="submit" value="등록하기">
+    </form>
 </div>
-
-<h1>댓글 쓰기</h1>
-<form th:action="@{|/comment/${post.id}|}" th:object="${createCommentRequest}" method="post">
-    <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-    <div>
-        <label for="content">내용:</label>
-        <textarea th:field="*{content}" required></textarea>
-    </div>
-    <input type="submit" value="등록하기">
-</form>
-</body>
 </html>
