@@ -1,17 +1,26 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
-    <table>
-        <thead>
-        <tr>
-            <th>title</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="post:${posts}">
-            <td><a th:href="@{|/post/${post.id}|}" th:text="${post.title}"> </a></td>
-        </tr>
-        </tbody>
-    </table>
-    <a th:href="@{/post}">글쓰기</a>
+    <div class="overflow-x-auto">
+        <table class="table table-zebra w-full bg-gray-900 text-white">
+            <thead>
+            <tr class="text-gray-400">
+                <th></th>
+                <th>제목</th>
+                <th>작성자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post:${posts}" class="hover:bg-gray-800">
+                <th class="text-gray-300" th:text="${post.id}"></th>
+                <td><a th:href="@{|/post/${post.id}|}" th:text="${post.title}"
+                       class="text-blue-400 hover:text-blue-600"> </a></td>
+                <td><a th:href="@{|/post/${post.id}|}" th:text="${post.member.username}"
+                       class="text-gray-300 hover:text-gray-400"> </a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a th:href="@{/post}" class="btn btn-primary mt-4">글쓰기</a>
+
 </div>
 </html>

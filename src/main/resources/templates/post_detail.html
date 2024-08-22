@@ -1,28 +1,42 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
-    <div th:text="${post.getMember().getUsername()}"></div>
-    <h1 th:text="${post.title}"></h1>
-    <div th:text="${post.content}"></div>
-    <a th:href="@{|/post/update/${post.id}|}">수정하기</a>
-    <a th:href="@{|/post/delete/${post.id}|}">삭제하기</a>
 
-    <h1>댓글 목록</h1>
-    <div th:each="comment:${post.comments}">
-        <div>
-            <div th:text="${comment.content}"></div>
+    <!-- postFragment.html -->
+    <div class="post-section p-6 bg-gray-900 text-white rounded-lg shadow-lg">
+        <div class="text-gray-400 mb-2" th:text="${post.getMember().getUsername()}"></div>
+        <h1 class="text-2xl font-bold mb-4 border-b border-gray-700 pb-2" th:text="${post.title}"></h1>
+        <div class="text-lg mb-6" th:text="${post.content}"></div>
+        <div class="flex space-x-2">
+            <a th:href="@{|/post/update/${post.id}|}" class="btn btn-success">수정하기</a>
+            <a th:href="@{|/post/delete/${post.id}|}" class="btn btn-error">삭제하기</a>
         </div>
-        <a th:href="@{|/comment/update/${comment.id}|}">수정</a>
-        <a th:href="@{|/comment/delete/${comment.id}|}">삭제</a>
     </div>
 
-    <h1>댓글 쓰기</h1>
-    <form th:action="@{|/comment/${post.id}|}" th:object="${createCommentRequest}" method="post">
-        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-        <div>
-            <label for="content">내용:</label>
-            <textarea th:field="*{content}" required></textarea>
+    <!-- commentsFragment.html -->
+    <div class="comments-section mt-8 space-y-4">
+        <h1 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">댓글 목록</h1>
+        <div th:each="comment:${post.comments}" class="bg-gray-800 p-4 rounded-lg shadow-md">
+            <div class="text-gray-200 mb-4" th:text="${comment.content}"></div>
+            <div class="flex space-x-2">
+                <a th:href="@{|/comment/update/${comment.id}|}" class="btn btn-success btn-sm">수정</a>
+                <a th:href="@{|/comment/delete/${comment.id}|}" class="btn btn-error btn-sm">삭제</a>
+            </div>
         </div>
-        <input type="submit" value="등록하기">
-    </form>
+    </div>
+
+    <!-- commentFormFragment.html -->
+    <div class="comment-form mt-8 p-6 bg-gray-900 rounded-lg shadow-lg">
+        <h1 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">댓글 쓰기</h1>
+        <form th:action="@{|/comment/${post.id}|}" th:object="${createCommentRequest}" method="post" class="space-y-4">
+            <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+            <div>
+                <label for="content" class="form-label text-gray-200">내용:</label>
+                <textarea th:field="*{content}" id="content"
+                          class="textarea textarea-bordered h-24 w-full text-gray-800 bg-gray-200 rounded-lg"
+                          style="resize: none;" placeholder="Enter your comment here"></textarea>
+            </div>
+            <input type="submit" value="등록하기" class="btn btn-primary w-full">
+        </form>
+    </div>
 </div>
 </html>

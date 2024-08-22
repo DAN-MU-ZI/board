@@ -1,16 +1,32 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
-    <form th:action="@{/post}" th:object="${createPostRequest}" method="post">
+    <form th:object="${createPostRequest}" method="post"
+          class="space-y-4 bg-gray-900 p-6 rounded-lg">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-        <div>
-            <label for="title">제목:</label>
-            <input type="text" th:field="*{title}"/>
-        </div>
-        <div>
-            <label for="content">내용:</label>
-            <textarea th:field="*{content}"></textarea>
-        </div>
-        <input type="submit" value="저장">
+
+        <!-- Title Field -->
+        <label for="title" class="form-control w-full">
+            <div class="label">
+                <span class="label-text text-gray-200">제목:</span>
+            </div>
+            <input type="text" th:field="*{title}"
+                   class="input input-bordered w-full bg-white text-gray-900"
+                   placeholder="Enter title here"/>
+        </label>
+
+        <!-- Content Field -->
+        <label for="content" class="form-control w-full">
+            <div class="label">
+                <span class="label-text text-gray-200">내용:</span>
+            </div>
+            <textarea th:field="*{content}"
+                      class="textarea textarea-bordered h-72 w-full bg-white text-gray-900"
+                      style="resize: none;" placeholder="Enter content here"></textarea>
+        </label>
+
+        <!-- Submit Button -->
+        <input type="submit" value="저장" class="btn btn-primary w-full">
     </form>
 </div>
 </html>
