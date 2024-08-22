@@ -1,25 +1,53 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content">
-    <h1>회원 가입</h1>
-    <form th:action="@{/member/register}" th:object="${createMemberRequest}" method="post">
-        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-        <div>
-            <label for="username">회원이름:</label>
-            <input type="text" th:field="*{username}">
+<div layout:fragment="content" class="container">
+    <div class="hero bg-base-200 min-h-screen">
+        <div class="hero-content flex-col lg:flex-row-reverse">
+            <div class="text-center lg:text-left">
+                <h1 class="text-5xl font-bold">Register</h1>
+            </div>
+            <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+                <form th:action="@{/member/register}" th:object="${createMemberRequest}" method="post"
+                      class="card-body">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+                    <div class="form-control">
+                        <label for="username" class="label">
+                            <span class="label-text">Username</span>
+                        </label>
+                        <input type="text" th:field="*{username}" id="username"
+                               placeholder="Username"
+                               class="input input-bordered" required/>
+                    </div>
+                    <div class="form-control">
+                        <label for="password1" class="label">
+                            <span class="label-text">Password</span>
+                        </label>
+                        <input type="password" th:field="*{password1}" id="password1"
+                               placeholder="Password" class="input input-bordered"
+                               required/>
+                    </div>
+                    <div class="form-control">
+                        <label for="password2" class="label">
+                            <span class="label-text">Password</span>
+                        </label>
+                        <input type="password" th:field="*{password2}" id="password2"
+                               placeholder="Password" class="input input-bordered"
+                               required/>
+                    </div>
+                    <div class="form-control">
+                        <label for="email" class="label">
+                            <span class="label-text">Email</span>
+                        </label>
+                        <input type="email" th:field="*{email}" id="email"
+                               placeholder="email"
+                               class="input input-bordered" required/>
+                    </div>
+                    <div class="form-control mt-6">
+                        <input type="submit" value="가입하기" class="btn btn-primary"></input>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div>
-            <label for="password1">비밀번호:</label>
-            <input type="password" th:field="*{password1}">
-        </div>
-        <div>
-            <label for="password2">비밀번호 확인:</label>
-            <input type="password" th:field="*{password2}">
-        </div>
-        <div>
-            <label for="email">이메일:</label>
-            <input type="text" th:field="*{email}">
-        </div>
-        <input type="submit" value="가입하기">
-    </form>
+    </div>
 </div>
 </html>

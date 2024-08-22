@@ -1,12 +1,24 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
-    <form th:object="${createCommentRequest}" method="post">
+    <form th:object="${createCommentRequest}" method="post"
+          class="space-y-4 bg-gray-900 p-6 rounded-lg shadow-lg">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-        <div>
-            <label for="content">내용:</label>
-            <textarea th:field="*{content}"></textarea>
-        </div>
-        <input type="submit" value="저장">
+
+        <!-- Content Field -->
+        <label for="content" class="form-control w-full">
+            <div class="label mb-2">
+                <span class="label-text text-gray-200">내용:</span>
+            </div>
+        </label>
+        <textarea th:field="*{content}" id="content"
+                  class="textarea textarea-bordered h-36 w-full text-gray-900 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  style="resize: none;" placeholder="Enter your comment here">
+        </textarea>
+
+        <!-- Submit Button -->
+        <input type="submit" value="저장"
+               class="btn btn-primary w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md transition duration-200">
     </form>
 </div>
 </html>

@@ -18,8 +18,6 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Member extends BaseEntity {
-	private String name;
-
 	@Column(unique = true)
 	private String username;
 	private String password;
