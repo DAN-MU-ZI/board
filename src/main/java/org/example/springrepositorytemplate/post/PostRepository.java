@@ -21,4 +21,19 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 		+ "   or c.content like %:kw% "
 		+ "   or u2.username like %:kw% ")
 	Page<Post> findAllByKeyword(@Param("kw") String kw, Pageable pageable);
+
+	Page<Post> findAllByTitleContainingIgnoreCase(String keyword, Pageable pageable);
+
+	Page<Post> findAllByContentContainingIgnoreCase(String keyword, Pageable pageable);
+
+	@Query("SELECT p FROM Post p WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :kw, '%')) " +
+		"OR LOWER(p.content) LIKE LOWER(CONCAT('%', :kw, '%'))")
+	Page<Post> findByTitleContainingOrContentContaining(@Param("kw") String kw, Pageable pageable);
+
+	@Query("select distinct p from Post p "
+		+ "left outer join Comment c on c.post = p "
+		+ "where LOWER(c.content) LIKE LOWER(CONCAT('%', :kw, '%'))")
+	Page<Post> findAllByCommentsContainingKeyword(@Param("kw") String kw, Pageable pageable);
+
+	Page<Post> findAllByMember_Username(String keyword, Pageable pageable);
 }

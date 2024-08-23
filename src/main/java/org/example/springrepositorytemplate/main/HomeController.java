@@ -1,5 +1,6 @@
 package org.example.springrepositorytemplate.main;
 
+import org.example.springrepositorytemplate.SearchCategory;
 import org.example.springrepositorytemplate.post.Post;
 import org.example.springrepositorytemplate.post.PostService;
 import org.springframework.data.domain.Page;
@@ -20,11 +21,13 @@ public class HomeController {
 	public String redirect(
 		Model model,
 		@RequestParam(value = "page", defaultValue = "0") int page,
-		@RequestParam(value = "kw", defaultValue = "") String kw
+		@RequestParam(value = "kw", defaultValue = "") String kw,
+		@RequestParam(value = "category", required = false) SearchCategory category
 	) {
-		Page<Post> paging = postService.getPosts(page, kw);
+		Page<Post> paging = postService.getPosts(page, kw, category);
 		model.addAttribute("paging", paging);
 		model.addAttribute("kw", kw);
+		model.addAttribute("category", category);
 		return "/home";
 	}
 
