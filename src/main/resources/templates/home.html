@@ -1,6 +1,31 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
     <div class="overflow-x-auto">
+        <!-- 검색창 섹션 -->
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-white">게시물 검색</h2>
+            <form th:action="@{/}" method="get" class="flex space-x-2">
+                <label class="input input-bordered flex items-center gap-2">
+                    <input type="text" name="kw"
+                           class="grow" placeholder="검색어를 입력하세요"/>
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                            class="h-4 w-4 opacity-70">
+                        <path
+                                fill-rule="evenodd"
+                                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                                clip-rule="evenodd"/>
+                    </svg>
+                </label>
+                <button type="submit" class="btn btn-primary">검색</button>
+                <div>
+                    <a th:href="@{/post}" class="btn btn-primary">글쓰기</a>
+                </div>
+            </form>
+        </div>
+
         <table class="table table-zebra w-full bg-gray-900 text-white">
             <thead>
             <tr class="text-gray-400">
@@ -10,8 +35,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="post:${posts}" class="hover:bg-gray-800">
-                <th class="text-gray-300" th:text="${post.id}"></th>
+            <tr th:each="post, loop : ${paging}" class="hover:bg-gray-800">
+                <th class="text-gray-300"
+                    th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></th>
                 <td><a th:href="@{|/post/${post.id}|}" th:text="${post.title}"
                        class="text-blue-400 hover:text-blue-600"> </a></td>
                 <td><a th:href="@{|/post/${post.id}|}" th:text="${post.member.username}"
@@ -19,8 +45,42 @@
             </tr>
             </tbody>
         </table>
-    </div>
-    <a th:href="@{/post}" class="btn btn-primary mt-4">글쓰기</a>
+        <!-- 페이징 섹션 -->
+        <div th:if="${!paging.isEmpty()}" class="join flex justify-center mt-8">
+            <a th:href="@{|?page=0|}"
+               class="join-item btn btn-outline"
+               th:classappend="${paging.number == 0} ? 'opacity-50 pointer-events-none cursor-not-allowed'">
+                <<
+            </a>
+            <a th:href="@{|?page=${paging.number-1}|}"
+               class="join-item btn btn-outline"
+               th:classappend="${!paging.hasPrevious()} ? 'opacity-50 pointer-events-none cursor-not-allowed'">
+                <span>이전</span>
+            </a>
 
+            <a th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+               th:if="${page >= paging.number-5 and page <= paging.number+5}"
+               th:classappend="${page == paging.number} ? 'btn-active'"
+               th:text="${page}"
+               th:href="@{|?page=${page}|}"
+               class="join-item btn"
+            ></a>
+
+            <a th:href="@{|?page=${paging.number+1}|}"
+               th:classappend="${!paging.hasNext()} ? 'opacity-50 pointer-events-none cursor-not-allowed'"
+               class="join-item btn btn-outline">
+                <span>다음</span>
+            </a>
+
+            <a th:href="@{|?page=${paging.totalPages-1}|}"
+               class="join-item btn btn-outline"
+               th:classappend="${paging.number == paging.totalPages-1} ? 'opacity-50 pointer-events-none cursor-not-allowed'">
+                >>
+            </a>
+        </div>
+        <div class="flex justify-end mt-4">
+            <a th:href="@{/post}" class="btn btn-primary">글쓰기</a>
+        </div>
+    </div>
 </div>
 </html>
